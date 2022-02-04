@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.Dao.stu_message_Dao">
+<!--getStuMessage-->
+    <resultMap id="getStuAllMassage" type="com.manage.Pojo.stu_message">
+        <result property="stuId" column="stu_id"/>
+        <result property="stuGrade" column="stu_grade"/>
+        <result property="stuMajor" column="stu_major"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="stu_login.password" column="password"/>
+    </resultMap>
+    <select id="getStuMessage" resultMap="getStuAllMassage" >
+        SELECT stu_name,stu_grade,stu_major,stu_message.stu_id ,`password`,class_num
+        FROM stu_message
+            LEFT JOIN  student
+                ON  stu_message.stu_id =student.stu_id
+    </select>
+
+    <!--getStuById-->
+    <select id="getStuById" resultType="com.manage.Pojo.stu_message">
+        select * from stu_message where stu_id = #{id}
+    </select>
+
+    <!--void insertStuLogin(stu_login stuLogin)-->
+    <update id="UpdataStuLogin">
+        UPDATE student
+        SET `password`= #{password}
+        WHERE stu_id = #{stuId}
+    </update>
+    <!--UpdataStuMessage-->
+    <update id="UpdataStuMessage">
+        UPDATE stu_message
+        SET `stu_name`=#{stuName},
+            `class_num`=#{classNum},
+            `stu_grade` = #{stuGrade},
+            `stu_major` = #{stuMajor},
+            `stu_id` = #{stuId}
+        WHERE  `stu_id` = #{stuId}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>学生信息管理表</title>
+
+  <!--data table-->
+  <link rel="stylesheet" href="js/data-tables/DT_bootstrap.css" />
+
+    <!--common-->
+    <link th:include="common :: #headerMenu">
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <div th:replace="common :: #leftCommon"></div>
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div th:replace="common :: #header_Common"></div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                学生信息管理表
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Data Table</a>
+                </li>
+                <li class="active"> Editable Table </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+             <div class="row">
+                <div class="col-sm-12">
+                <section class="panel">
+                <header class="panel-heading">
+                    可编辑表格
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                </header>
+                <div class="panel-body">
+                <div class="adv-table editable-table ">
+                <div class="clearfix">
+                    <div class="btn-group">
+
+                        <button >
+                            <a th:href="@{/editable_student_Updata}"> 新 建 </a>
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">Print</a></li>
+                            <li><a href="#">Save as PDF</a></li>
+                            <li><a href="#">Export to Excel</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="space15"></div>
+                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>班级</th>
+                    <th>专业</th>
+                    <th>学号</th>
+                    <th>年级</th>
+                    <th>密码</th>
+                    <th>修改</th>
+                    <th>删除</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="" th:each="stu,stats:${allStu}">
+                    <td th:text="${stats.count}"></td>
+                    <td th:text="${stu.stuName}">姓名</td>
+                    <td th:text="${stu.classNum}">班级</td>
+                    <td th:text="${stu.stuMajor}">Smith</td>
+                    <td th:text="${stu.stuId}">3455</td>
+                    <td th:text="${stu.stuGrade}">Lorem ipsume</td>
+                    <td th:text="${stu.stu_login.password}" >123124123</td>
+                    <td><a th:href="'/editable_student_Updata/'+${stu.stuName}+'/'+${stu.classNum}+'/'+${stu.stuGrade}+'/'+${stu.stuMajor}+'/'+${stu.stuId}+'/'+${stu.stu_login.password}">Edit</a></td>
+                    <td><a th:href="'/deleteStuMessage/'+${stu.stuId}">Delete</a></td>
+                </tr>
+
+                </tbody>
+                </table>
+                </div>
+                </div>
+                </section>
+                </div>
+                </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2021 四人小组
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<div th:replace="common :: #commonJs"/>
+
+<!--data table-->
+<script type="text/javascript" src="js/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/data-tables/DT_bootstrap.js"></script>
+
+<!--script for editable table-->
+<script src="js/editable-table.js"></script>
+
+<!-- END JAVASCRIPTS -->
+<script>
+    jQuery(document).ready(function() {
+        EditableTable.init();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>Dynamic Table</title>
+
+    <!--dynamic table-->
+    <link href="js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
+    <link href="js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="js/data-tables/DT_bootstrap.css"/>
+
+    <!--common-->
+    <link th:include="common :: #headerMenu">
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <div th:replace="common :: #leftCommon"></div>
+
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div th:replace="common :: #header_Common"></div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                Dynamic Table
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Data Tables</a>
+                </li>
+                <li class="active"> Dynamic Table</li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Dynamic Table
+                            <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+             </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="adv-table">
+                                <table class="display table table-bordered table-striped" id="dynamic-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Rendering engine</th>
+                                        <th>Browser</th>
+                                        <th>Platform(s)</th>
+                                        <th class="hidden-phone">Engine version</th>
+                                        <th class="hidden-phone">CSS grade</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="gradeX">
+                                        <td>Trident</td>
+                                        <td>Internet
+                                            Explorer 4.0
+                                        </td>
+                                        <td>Win 95+</td>
+                                        <td class="center hidden-phone">4</td>
+                                        <td class="center hidden-phone">X</td>
+                                    </tr>
+
+                                    <tr class="gradeU">
+                                        <td>Other browsers</td>
+                                        <td>All others</td>
+                                        <td>-</td>
+                                        <td class="center hidden-phone">-</td>
+                                        <td class="center hidden-phone">U</td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Rendering engine</th>
+                                        <th>Browser</th>
+                                        <th>Platform(s)</th>
+                                        <th class="hidden-phone">Engine version</th>
+                                        <th class="hidden-phone">CSS grade</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            DataTables hidden row details example
+                            <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+             </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="adv-table">
+                                <table class="display table table-bordered" id="hidden-table-info">
+                                    <thead>
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>id号</th>
+                                        <th>姓名</th>
+                                        <th class="hidden-phone">年龄</th>
+                                        <th class="hidden-phone">邮箱</th>
+                                        <th class="hidden-phone">删除</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="gradeU" th:each="user,stats : ${pages.records}">
+                                        <td th:text="${stats.count}"></td>
+                                        <td th:text="${user.id}"></td>
+                                        <td th:text="${user.name}" class="hidden-phone">-</td>
+                                        <td th:text="${user.age}" class="center hidden-phone">-</td>
+                                        <td th:text="${user.email}" class="center hidden-phone">U</td>
+<!--                                        <td><a th:href="@{/deleteUserById(id=${user.id})}"  class="btn btn-danger btn-sm" type="button">删除</a></td>-->
+                                        <td><a th:href="@{/deleteUserById/{id}(id = ${user.id},pn=${pages.current})}"  class="btn btn-danger btn-sm" type="button">删除</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--分页-->
+                                <div class="row-fluid">
+                                    <div class="span6">
+                                        <div class="dataTables_info" id="hidden-table-info_info">
+                                            当前页码是[[${pages.current}]]~
+                                            总页码是[[${pages.pages}]]~
+                                            总记录数[[${pages.total}]]~
+                                        </div>
+                                    </div>
+                                    <div class="span6">
+                                        <div class="dataTables_paginate paging_bootstrap pagination">
+                                            <ul>
+                                                <li th:class="${pages.current<=1?'disabled':''}"><a th:href="@{/dynamic_table(pn=${(pages.current)-1})}">← Previous</a></li>
+                                                <li th:class="${num == pages.current?'active':''}" th:each="num : ${#numbers.sequence(1,pages.pages)}">
+                                                    <a th:href="@{/dynamic_table(pn=${num})}">[[${num}]]</a>
+                                                </li>
+                                                <li th:class="${pages.current>=pages.pages?'disabled':''}"><a th:href="@{/dynamic_table(pn=${pages.current+1})}">Next → </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2014 &copy; AdminEx by ThemeBucket
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<div th:replace="common :: #commonJs"/>
+
+
+<!--dynamic table-->
+<script type="text/javascript" language="javascript" src="js/advanced-datatable/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/data-tables/DT_bootstrap.js"></script>
+<!--dynamic table initialization -->
+<!--这里是使用js实现的分页-->
+<!--<script src="js/dynamic_table_init.js"></script>-->
+
+
+</body>
+</html>
