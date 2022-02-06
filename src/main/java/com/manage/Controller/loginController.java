@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,35 +26,36 @@ import java.util.Objects;
  * @Date 13/12/2021 10:48
  */
 @Controller
+@Transactional  //该注解放在类上，使类方法支持事务回滚
 public class loginController {
     @Autowired
     com.manage.Service.loginService loginService;
     @Autowired
     SearchService searchService;
     @Autowired
-    RedisTemplate<String,String> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
 
     @GetMapping(value = "/")
     public String toLogin() {
         return "login";
     }
 
-    @PostMapping (value = "/index")
+    @PostMapping(value = "/index")
     public String toIndex(stu_login stu_login, HttpSession session, Model model) {
         com.manage.Pojo.stu_login stuLogin = loginService.testLogin(stu_login.getStuId());
         // 异常信息数量
         List<exception_request> allException = searchService.getAllException();
         if (!allException.isEmpty()) {
-            model.addAttribute("exceptNum",allException.size());
+            model.addAttribute("exceptNum", allException.size());
         }
         // 1.全校学生人数
         Integer allStuNum = searchService.AllStuNum();
-        model.addAttribute("allStuNum",allStuNum);
+        model.addAttribute("allStuNum", allStuNum);
         // 2.综测加分分类个数
         Integer allClaNum = searchService.AllClaNum();
-        model.addAttribute("allClaNum",allClaNum);
+        model.addAttribute("allClaNum", allClaNum);
 
-        if (stuLogin == null||!(stuLogin.getPassword().equals(stu_login.getPassword()))) {
+        if (stuLogin == null || !(stuLogin.getPassword().equals(stu_login.getPassword()))) {
 
             session.setAttribute("returnEx", "输入错误");
             return "login";
@@ -63,27 +66,28 @@ public class loginController {
         }
 
     }
+
     @GetMapping("/index")
-    public String Index(HttpSession session,Model model) {
+    public String Index(HttpSession session, Model model) {
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         List<exception_request> allException = searchService.getAllException();
 
         if (!allException.isEmpty()) {
-            model.addAttribute("exceptNum",allException.size());
+            model.addAttribute("exceptNum", allException.size());
         }
         // 1.全校学生人数
         Integer allStuNum = searchService.AllStuNum();
-        model.addAttribute("allStuNum",allStuNum);
+        model.addAttribute("allStuNum", allStuNum);
         // 2.综测加分分类个数
         Integer allClaNum = searchService.AllClaNum();
-        model.addAttribute("allClaNum",allClaNum);
+        model.addAttribute("allClaNum", allClaNum);
 
         Integer login = Integer.parseInt(Objects.requireNonNull(ops.get("logeing")));
-        model.addAttribute("login",login);
+        model.addAttribute("login", login);
 
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser == null) {
-            session.setAttribute("returnEx","请先进行登录");
+            session.setAttribute("returnEx", "请先进行登录");
             return "/";
         }
         return "index";
@@ -93,6 +97,7 @@ public class loginController {
     public String toRegist() {
         return "/registration/registration";
     }
+
     @ResponseBody
     @GetMapping("/testLoginUserById")
     public String toTest(Integer username) {

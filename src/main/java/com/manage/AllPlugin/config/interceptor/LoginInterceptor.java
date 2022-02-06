@@ -28,7 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor{
             session.setAttribute("return_message", "请先进行登录");
             //请求重定向
             response.sendRedirect("/");
-//            request.getRequestDispatcher("/").forward(request,response);  请求转发
+            //request.getRequestDispatcher("/").forward(request,response);  请求转发
             return false;
         } else {
             //放行
