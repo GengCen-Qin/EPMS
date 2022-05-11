@@ -155,10 +155,6 @@ public class studentPageController {
             session.setAttribute("returnEx", "输入错误");
             return "redirect:/StuLogin";
         } else {
-            //记录学生登录信息
-            ValueOperations<String, String> ops = redisTemplate.opsForValue();
-            ops.increment("logeing");
-
             session.setAttribute("loginUser", stuLogin);
             return "redirect:/studentPage";
         }

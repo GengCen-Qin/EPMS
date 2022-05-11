@@ -69,7 +69,7 @@ public class loginController {
 
     @GetMapping("/index")
     public String Index(HttpSession session, Model model) {
-        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+//        ValueOperations<String, String> ops = redisTemplate.opsForValue();
         List<exception_request> allException = searchService.getAllException();
 
         if (!allException.isEmpty()) {
@@ -82,8 +82,8 @@ public class loginController {
         Integer allClaNum = searchService.AllClaNum();
         model.addAttribute("allClaNum", allClaNum);
 
-        Integer login = Integer.parseInt(Objects.requireNonNull(ops.get("logeing")));
-        model.addAttribute("login", login);
+//        Integer login = Integer.parseInt(Objects.requireNonNull(ops.get("login")));
+//        model.addAttribute("login", login);
 
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser == null) {
