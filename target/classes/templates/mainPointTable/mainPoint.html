@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>学生总成绩管理</title>
+
+  <!--data table-->
+  <link rel="stylesheet" href="js/data-tables/DT_bootstrap.css" />
+
+    <!--common-->
+    <link th:include="common :: #headerMenu">
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <div th:replace="common :: #leftCommon"></div>
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div th:replace="common :: #header_Common"></div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                学生总成绩管理
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Data Table</a>
+                </li>
+                <li class="active"> Editable Table </li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+             <div class="row">
+                <div class="col-sm-12">
+                <section class="panel">
+                <header class="panel-heading">
+                    可编辑表格
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                </header>
+                <div class="panel-body">
+                <div class="adv-table editable-table ">
+                <div class="clearfix">
+                    <div class="btn-group">
+
+                        <button >
+                            <a th:href="@{/toInsertPage}"> 新 建 </a>
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#">Print</a></li>
+                            <li><a href="#">Save as PDF</a></li>
+                            <li><a href="#">Export to Excel</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="space15"></div>
+                <table class="table table-striped table-hover table-bordered" id="editable-sample">
+                <thead>
+                <tr>
+                    <th>序 号</th>
+                    <th>学 号</th>
+                    <th>姓 名</th>
+                    <th>班 级</th>
+                    <th>专 业</th>
+                    <th>德 育</th>
+                    <th>智 育</th>
+                    <th>文 体</th>
+                    <th>综测加分</th>
+                    <th>总 分</th>
+                    <th>学 年</th>
+                    <th>修 改</th>
+                    <th>删 除</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="" th:each="mainPoint,stats:${allMainPoint}" >
+                    <td th:text="${stats.count}">序号</td>
+                    <td th:text="${mainPoint.stuId}">学号</td>
+                    <td th:text="${mainPoint.stuMessage.stuName}">姓名</td>
+                    <td th:text="${mainPoint.stuMessage.classNum}">班级</td>
+                    <td th:text="${mainPoint.stuMessage.stuMajor}">专业</td>
+                    <td th:text="${mainPoint.moralEdu}">德育</td>
+                    <td th:text="${mainPoint.learnEdu}">智育</td>
+                    <td th:text="${mainPoint.sportEdu}">文体</td>
+                    <td th:text="${mainPoint.additionEdu}">附加分</td>
+                    <td th:text="${mainPoint.stuMessage.totalPoint}">总 分</td>
+                    <td th:text="${mainPoint.schoolYear}">学年</td>
+
+                 <td>
+                     <a th:href="@{'/toUpdatePage/'+${mainPoint.stuId}+'/'+${mainPoint.moralEdu}+'/'+${mainPoint.learnEdu}+'/'+${mainPoint.sportEdu}+'/'+${mainPoint.additionEdu}+'/'+${mainPoint.schoolYear}}" >Edit</a>
+                 </td>
+                 <td>
+                     <a th:href="@{'/deleteMainPoint/'+${mainPoint.stuId}}">Delete</a>
+                 </td>
+                </tr>
+
+
+                </tbody>
+                </table>
+                </div>
+                </div>
+                </section>
+                </div>
+                </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2021 四人小组
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<div th:replace="common :: #commonJs"/>
+
+<!--data table-->
+<script type="text/javascript" src="js/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/data-tables/DT_bootstrap.js"></script>
+
+<!--script for editable table-->
+<script src="js/editable-table.js"></script>
+
+<!-- END JAVASCRIPTS -->
+<script>
+    jQuery(document).ready(function() {
+        EditableTable.init();
+    });
+</script>
+
+</body>
+</html>

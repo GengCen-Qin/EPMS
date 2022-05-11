@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>学生总成绩管理</title>
+
+    <!--data table-->
+    <link rel="stylesheet" href="js/data-tables/DT_bootstrap.css"/>
+
+    <!--common-->
+    <link th:include="common :: #headerMenu">
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <div th:replace="common :: #leftCommon"></div>
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div th:replace="common :: #header_Common"></div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                学生总成绩管理
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Data Table</a>
+                </li>
+                <li class="active"> Editable Table</li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            可编辑表格
+                            <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                     </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="adv-table editable-table ">
+                                <div class="space15"></div>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>学 号</th>
+                                        <th>德 育</th>
+                                        <th>智 育</th>
+                                        <th>体 育</th>
+                                        <th>综测加分</th>
+                                        <th>学 年</th>
+                                        <th>提 交</th>
+                                    </tr>
+                                    </thead>
+                                    <div th:if="${mainPoint} != null">
+                                        <form th:action="@{/updataMainPoint}" method="post">
+                                            <input name="score_method" type="hidden" value="update"/>
+                                            <tr>
+                                                <td><input name="stuId" type="text" th:value="${mainPoint.stuId}"/></td>
+                                                <td><input name="moralEdu" type="text" th:value="${mainPoint.moralEdu}"/></td>
+                                                <td><input name="learnEdu" type="text" th:value="${mainPoint.learnEdu}"/></td>
+                                                <td><input name="sportEdu" type="text" th:value="${mainPoint.sportEdu}"/></td>
+                                                <td><input name="additionEdu" type="text" th:value="${mainPoint.additionEdu}"/></td>
+                                                <td><input name="schoolYear" type="text" th:value="${mainPoint.schoolYear}"/></td>
+                                                <td><input type="submit"/></td>
+                                            </tr>
+                                        </form>
+                                    </div>
+                                    <div th:if="${mainPoint} == null">
+                                        <form th:action="@{/updataMainPoint}" method="post">
+                                            <input name="score_method" type="hidden" value="insert"/>
+                                            <tr>
+                                                <td><input name="stuId" type="text"/></td>
+                                                <td><input name="moralEdu" type="text"/></td>
+                                                <td><input name="learnEdu" type="text"/></td>
+                                                <td><input name="sportEdu" type="text"/></td>
+                                                <td><input name="additionEdu" type="text"/></td>
+                                                <td><input name="schoolYear" type="text"/></td>
+                                                <td><input type="submit"/></td>
+                                            </tr>
+                                        </form>
+                                    </div>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2014 &copy; AdminEx by ThemeBucket
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<div th:replace="common :: #commonJs"/>
+
+<!--data table-->
+<script type="text/javascript" src="js/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/data-tables/DT_bootstrap.js"></script>
+
+<!--script for editable table-->
+<script src="js/editable-table.js"></script>
+
+<!-- END JAVASCRIPTS -->
+<script>
+    jQuery(document).ready(function () {
+        EditableTable.init();
+    });
+</script>
+
+</body>
+</html>
